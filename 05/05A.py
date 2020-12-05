@@ -1,0 +1,6 @@
+lines = open('input.txt', 'r').readlines()
+boarding_passes = map(lambda line: line.rstrip(), lines)
+binary_passes = map(lambda line: line.replace("B", "1").replace("F", "0").replace("R", "1").replace("L", "0"), boarding_passes)
+seat_ids = map(lambda seat: int(seat, 2), binary_passes)
+max_id = max(list(seat_ids))
+print("max seat ID: " + str(max_id))
