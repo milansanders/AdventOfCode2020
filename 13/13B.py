@@ -21,7 +21,9 @@ def solve_congruences(a, n):
     for a_i, n_i in zip(a, n):
         y_i = N / n_i
         z_i = mult_inv(y_i, n_i)
-        x += a_i * y_i * z_i
+        # We force an int
+        # Since these numbers are so big, python uses floats by default and they lack accuracy
+        x += int(a_i * y_i * z_i)
     return x % N
 
 
@@ -66,9 +68,4 @@ if all_n_coprime:
 print()
 
 t_0 = solve_congruences(a, n)
-print("%d valid? %s" % (t_0, valid_t(t_0, a, n)))
-
-# I got pretty close at the start figuring out it's a system of congruences and it works on all the test cases
-# But for some reason the answer is consistently off by 10 for the actual input (on over 600 quadrillion)
-t_0 = t_0 - 10
 print("%d valid? %s" % (t_0, valid_t(t_0, a, n)))
