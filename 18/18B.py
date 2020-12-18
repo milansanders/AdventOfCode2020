@@ -25,12 +25,10 @@ def calc_op(a, op, b):
         res = a * b
     else:
         raise
-    # print("making calc: %s %s %d = %d" % (str(a), op, b, res))
     return res
 
 
 def calc(line):
-    # print("CALCULATING: " + line)
     while "(" in line:
         depth = 0
         start = line.index("(")
@@ -43,31 +41,14 @@ def calc(line):
             i += 1
         end = i
         line = line[:start] + str(calc(line[start+1:end])) + line[end+1:]
-    # print("after parentheses: " + line)
     while "+" in line:
         m = re.search(sum_pattern, line)
-        # print("found +: " + m.group(0))
         args = m.group(0).split("+")
-        res = str(int(args[0]) + int(args[1]))
-        start = m.start(0)
-        end = m.end(0)
-        before = line[:start]
-        after = line[end:]
-        # print("%s %s %s" % (before, res, after))
-        line = before + res + after
-    # print("after +: " + line)
+        line = line[:m.start(0)] + str(int(args[0]) + int(args[1])) + line[m.end(0):]
     while "*" in line:
         m = re.search(mul_pattern, line)
-        # print("found *: " + m.group(0))
         args = m.group(0).split("*")
-        res = str(int(args[0]) * int(args[1]))
-        start = m.start(0)
-        end = m.end(0)
-        before = line[:start]
-        after = line[end:]
-        # print("%s %s %s" % (before, res, after))
-        line = before + res + after
-    # print("result: " + line)
+        line = line[:m.start(0)] + str(int(args[0]) * int(args[1])) + line[m.end(0):]
     return int(line)
 
 
