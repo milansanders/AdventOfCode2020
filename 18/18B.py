@@ -3,31 +3,6 @@ import re
 sum_pattern = re.compile('([0-9]+\+[0-9]+)')
 mul_pattern = re.compile('([0-9]+\*[0-9]+)')
 
-def pop_elem(line) -> (str, str):
-    if len(line) == 0:
-        return None, ""
-    first = line[0]
-    if first == "+" or first == "*" or first == "(" or first == ")":
-        return first, line[1:]
-    else:
-        for i in range(len(line)):
-            if not line[i].isdigit():
-                return int(line[:i]), line[i:]
-        return int(line), ""
-
-
-def calc_op(a, op, b):
-    if op is None:
-        res = b
-    elif op == "+":
-        res = a + b
-    elif op == "*":
-        res = a * b
-    else:
-        raise
-    return res
-
-
 def calc(line):
     while "(" in line:
         depth = 0
