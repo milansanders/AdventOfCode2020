@@ -1,7 +1,7 @@
 import time
 import datetime
 
-nb_moves = 1000000
+nb_moves = 10000000
 nb_cups = 1000000
 # cups = list(map(int, list("389125467"))) # Test
 cups = list(map(int, list("583976241"))) # Input
