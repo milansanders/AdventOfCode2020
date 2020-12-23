@@ -55,8 +55,7 @@ while move <= nb_moves:
     # print("pick up: %s" % ",".join(map(str, cups[1:4])))
     destination = next_lowest(cups[0] - 1, set(cups[1:4]))
     target_idx = cups.index(destination)
-    cups[4:(target_idx+1)], cups[1:4] = cups[1:4], cups[4:(target_idx+1)]
-    cups = cups[1:] + [cups[0]]
+    cups = cups[4:target_idx+1] + cups[1:4] + cups[target_idx+1:] + [cups[0]]
     move += 1
 
 print("\nFinal result:")

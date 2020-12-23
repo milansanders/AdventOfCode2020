@@ -1,7 +1,7 @@
 import time
 import datetime
 
-nb_moves = 1000000
+nb_moves = 10000000
 nb_cups = 1000000
 cups = list(map(int, list("389125467"))) # Test
 # cups = list(map(int, list("583976241"))) # Input
@@ -32,23 +32,25 @@ class CircularLinkedList:
         self.head = self.head.next
 
     def extract_taken(self):
-        return [
-            self.head.next.data,
-            self.head.next.next.data,
-            self.head.next.next.next.data,
-        ]
+        res = set()
+        curr = self.head
+        for _ in range(3):
+            curr = curr.next
+            res.add(curr.data)
+        return res
 
     def make_move(self, data):
         head = self.head
         taken_begin = head.next
-        taken_end = head.next.next.next
-        curr = taken_end.next
+        taken_end = taken_begin.next.next
+        cont = taken_end.next
+        curr = cont
         while curr.data != data:
             curr = curr.next
-        head.next = taken_end.next
+        head.next = cont
         taken_end.next = curr.next
         curr.next = taken_begin
-        self.head = self.head.next
+        self.head = cont
 
     def __str__(self):
         current = self.head
