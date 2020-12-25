@@ -3,8 +3,8 @@ import datetime
 
 nb_moves = 10000000
 nb_cups = 1000000
-cups = list(map(int, list("389125467"))) # Test
-# cups = list(map(int, list("583976241"))) # Input
+# cups = list(map(int, list("389125467"))) # Test
+cups = list(map(int, list("583976241"))) # Input
 cups += list(range(max(cups) + 1, nb_cups+1))
 
 
@@ -18,15 +18,19 @@ class CircularLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
+        self.lookup = dict()
 
     def add(self, data):
         if self.head is None:
-            self.head = Link(data, None)
+            link = Link(data, None)
+            self.head = link
             self.head.next = self.head
             self.tail = self.head
         else:
-            self.tail.next = Link(data, self.head)
+            link = Link(data, self.head)
+            self.tail.next = link
             self.tail = self.tail.next
+        self.lookup[data] = link
 
     def shift(self):
         self.head = self.head.next
@@ -44,9 +48,7 @@ class CircularLinkedList:
         taken_begin = head.next
         taken_end = taken_begin.next.next
         cont = taken_end.next
-        curr = cont
-        while curr.data != data:
-            curr = curr.next
+        curr = self.lookup[data]
         head.next = cont
         taken_end.next = curr.next
         curr.next = taken_begin
@@ -87,7 +89,7 @@ def format_time(m):
 def print_estimate(start_millis, millis, diff, duration_est):
     print("Started on: " + format_time(start_millis))
     print("Been going for: %.3fs" % (float(millis - start_millis) / 1000))
-    print("Last 100 moves: %.3fs" % (float(diff) / 1000))
+    print("Last 100000 moves: %.3fs" % (float(diff) / 1000))
     print("Estimated end: " + format_time(start_millis + duration_est))
 
 
@@ -99,7 +101,7 @@ start_millis = int(round(time.time() * 1000))
 prev_millis = start_millis
 move = 1
 while move <= nb_moves:
-    if (move % 100) == 0:
+    if (move % 100000) == 0:
         print("\n-- move %d --" % move)
         millis = int(round(time.time() * 1000))
         diff = millis - prev_millis
@@ -120,5 +122,5 @@ while move <= nb_moves:
 print("\nFinal result:")
 while cups.head.data != 1:
     cups.shift()
-print("cups: " + str(cups))
+# print("cups: " + str(cups))
 print("%d * %d = %d" % (cups.head.next.data, cups.head.next.next.data, cups.head.next.data * cups.head.next.next.data))
